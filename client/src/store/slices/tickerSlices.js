@@ -1,32 +1,28 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    tickers: {
-        prevState: [],
-        currentState: [] 
-    },
-
+    tickers: [],
+    visibleTickers: [true, true, true, true, true, true]
 }
 const tickersSlice = createSlice({
     name: 'tickers',
     initialState: initialState,
     reducers: {
-        incremented: state => {
-            state.counter +=1
-        },
-        decremented: state => {
-            state.counter -= 1
-        },
         getTickers: (state, { payload }) => {
-            // state.tickers = payload;
-            state.tickers.prevState = state.tickers.currentState;
-            state.tickers.currentState = payload
             
+            state.tickers = payload;
+        },
+        handlerVisible: (state, index) => {
+            console.log('action', index.payload)
+             state.visibleTickers[index.payload] = !state.visibleTickers[index.payload]
         }
+        //придумать екшен
     }
 });
 export const tickersSelector = {
-    tickersList: (state) => state.tickers
+    tickersList: (state) => state.tickers,
+    tickerVision: (state) => state.visibleTickers,
+
 }
-export const { incremented, decremented, getTickers} = tickersSlice.actions;
+export const { getTickers, handlerVisible} = tickersSlice.actions;
 export default  tickersSlice;
